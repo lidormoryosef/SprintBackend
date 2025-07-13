@@ -1,24 +1,30 @@
 const memberModel = require('../Model/MemberModel');
 const model = memberModel;
-async function getAllMembersService(){
-    try{
-        return await model.getAllMembersModel();
-    }catch(error){
+async function getMembersByPageService(page){
+    let members = await model.getMembersByPageModel(page);
+    if(members == null){
         return null;
     }
+    const filteredMembers = members.map(member => ({
+    id: member.id,
+    name: member.name,
+    }));
+    return filteredMembers;
 }
 async function getMemberByIdService(id){
-    try{
-        return await model.getMemberByIdModel(id);
-    }catch(error){
-        return null;
-    }
+    return await model.getMemberByIdModel(id);
 }
 async function updateMemberByIdService(id,member){
-    try{
-        return await model.updateMemberByIdModel(id,member);
-    }catch(error){
-        return null;
-    }
+    return await model.updateMemberByIdModel(id,member);
 }
-module.exports ={getAllMembersService,getMemberByIdService,updateMemberByIdService};
+async function deleteMemberByIdService(id){
+    return await model.deleteMemberByIdModel(id);
+}
+async function getCountOfMembersService(){
+    return await model.getCountOfMembersModel();
+}
+module.exports ={getMembersByPageService,
+    getMemberByIdService,
+    updateMemberByIdService,
+    deleteMemberByIdService,
+    getCountOfMembersService};

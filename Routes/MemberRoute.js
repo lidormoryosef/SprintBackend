@@ -5,11 +5,18 @@ const controller= memberController;
 const router=express.Router();
 /**
  * @swagger
- * /api/members/getAllMembers:
+ * /api/members/getMembers/{page}:
  *   get:
- *     summary: Get all members.
+ *     summary: Get batch of members.
  *     tags:
  *       - Members
+*     parameters:
+ *       - in: path
+ *         name: page
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The num of page
  *     responses:
  *       200:
  *         description: Successful.
@@ -18,7 +25,7 @@ const router=express.Router();
  *       500:
  *         description: Error in Server.
  */
-router.route('/getAllMembers').get(controller.getAllMembersController);
+router.route('/getMembers/:page').get(controller.getMembersByPageController);
 /**
  * @swagger
  * /api/members/getMemberById/{id}:
@@ -36,6 +43,8 @@ router.route('/getAllMembers').get(controller.getAllMembersController);
  *     responses:
  *       200:
  *         description: Member found.
+*       400:
+ *         description: Error in request.
  *       404:
  *         description: Member ID does not exist.
  *       500:
@@ -73,6 +82,8 @@ router.route('/getMemberById/:id').get(controller.getMemberByIdController);
  *     responses:
  *       200:
  *         description: Member updated successfully.
+ *       400:
+ *         description: Error in request.
  *       404:
  *         description: Member ID does not exist.
  *       500:
@@ -80,4 +91,41 @@ router.route('/getMemberById/:id').get(controller.getMemberByIdController);
  */
 router.route('/updateMemberById/:id').put(controller.updateMemberByIdController);
 
+/**
+ * @swagger
+ * /api/members/deleteMemberById/{id}:
+ *   get:
+ *     summary: Delete member by ID.
+ *     tags:
+ *       - Members
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The ID of the member
+ *     responses:
+ *       200:
+ *         description: Member deleted.
+ *       404:
+ *         description: Member ID does not exist.
+ *       500:
+ *         description: Server error.
+ */
+router.route('/deleteMemberById/:id').delete(controller.deleteMemberByIdController);
+/**
+ * @swagger
+ * /api/members/getCountMembers:
+ *   get:
+ *     summary: Get count of all members.
+ *     tags:
+ *       - Members
+ *     responses:
+ *       200:
+ *         description: Successful.
+ *       500:
+ *         description: Error in Server.
+ */
+router.route('/getCountMembers').get(controller.getCountOfMembersController);
 module.exports = router;
