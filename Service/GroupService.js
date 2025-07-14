@@ -4,5 +4,11 @@ const model = groupModel;
 async function getCountOfGroupsService(){
     return await model.getCountOfGroupsModel();
 }
+async function getAllGroupsService(){
+    return await model.getAllGroupsModel();
+}
+async function getAllGroupsByIdService(id){
+    return await model.getAllGroupsByIdModel(id);
+}
 
-module.exports ={getCountOfGroupsService};
+module.exports ={getCountOfGroupsService,getAllGroupsService,getAllGroupsByIdService};
