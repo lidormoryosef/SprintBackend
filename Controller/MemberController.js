@@ -1,12 +1,8 @@
 const memberService = require('../Service/MemberService');
 const service = memberService;
 
-async function getMembersByPageController(request,response){
-    let page = request.params.page;
-    if(!Number.isInteger(Number(page))){
-        response.status(400).send();
-    }
-    const members = await service.getMembersByPageService(page);
+async function getMembersController(request,response){
+    const members = await service.getMembersService();
     if(members !== null ){
         response.status(200).send(members);
     }else{
@@ -19,12 +15,22 @@ async function getMemberByIdController(request,response){
         response.status(400).send();
     }
     const member = await service.getMemberByIdService(id);
-    if(result === null ){
+    if(member === null ){
         response.status(500).send();
-    }else if(result === "Not Exsits"){
+    }else if(member === "Not Exsits"){
         response.status(404).send();
     }else{
         response.status(200).send(member);
+    }
+}
+async function addOrUpdateMemberController(request,response){
+    const member = await service.addOrUpdateMemberService(request.body.member);
+    if(member === null ){
+        response.status(500).send();
+    }else if(member === "Bad Request"){
+        response.status(404).send();
+    }else{
+        response.status(200).send();
     }
 }
 async function updateMemberByIdController(request,response){
@@ -57,14 +63,16 @@ async function deleteMemberByIdController(request,response){
 }
 async function getCountOfMembersController(request,response){
     const count = await service.getCountOfMembersService();
-    if(result === null ){
+    if(count === null ){
         response.status(500).send();
     }else{
         response.status(200).send(count);
     }
 }
-module.exports = {getMembersByPageController,
+
+module.exports = {getMembersController,
     getMemberByIdController,
     updateMemberByIdController,
     deleteMemberByIdController,
-    getCountOfMembersController};
+    getCountOfMembersController,
+    addOrUpdateMemberController};

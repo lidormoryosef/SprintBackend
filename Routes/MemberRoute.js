@@ -5,15 +5,12 @@ const controller= memberController;
 const router=express.Router();
 /**
  * @swagger
- * /api/members/getMembers/{page}:
+ * /api/members/getMembers:
  *   get:
- *     summary: Get batch of members.
+ *     summary: Get all members.
  *     tags:
  *       - Members
 *     parameters:
- *       - in: path
- *         name: page
- *         required: true
  *         schema:
  *           type: string
  *         description: The num of page
@@ -25,7 +22,7 @@ const router=express.Router();
  *       500:
  *         description: Error in Server.
  */
-router.route('/getMembers/:page').get(controller.getMembersByPageController);
+router.route('/getMembers').get(controller.getMembersController);
 /**
  * @swagger
  * /api/members/getMemberById/{id}:
@@ -51,7 +48,31 @@ router.route('/getMembers/:page').get(controller.getMembersByPageController);
  *         description: Server error.
  */
 router.route('/getMemberById/:id').get(controller.getMemberByIdController);
-
+/**
+ * @swagger
+ * /api/members/addMember:
+ *   get:
+ *     summary: Add member.
+ *     tags:
+ *       - Members
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               linkedInProfile:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Member saved.
+*       400:
+ *         description: Error in request.
+ *       500:
+ *         description: Server error.
+ */
+router.route('/addOrUpdateMember').post(controller.addOrUpdateMemberController);
 /**
  * @swagger
  * /api/members/updateMemberById/{id}:
@@ -94,7 +115,7 @@ router.route('/updateMemberById/:id').put(controller.updateMemberByIdController)
 /**
  * @swagger
  * /api/members/deleteMemberById/{id}:
- *   get:
+ *   delete:
  *     summary: Delete member by ID.
  *     tags:
  *       - Members

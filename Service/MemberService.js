@@ -1,15 +1,18 @@
 const memberModel = require('../Model/MemberModel');
 const model = memberModel;
-async function getMembersByPageService(page){
-    let members = await model.getMembersByPageModel(page);
+async function getMembersService(){
+    let members = await model.getMembersModel();
     if(members == null){
         return null;
     }
-    const filteredMembers = members.map(member => ({
-    id: member.id,
-    name: member.name,
-    }));
-    return filteredMembers;
+    return members;
+}
+async function addOrUpdateMemberService(member){
+    let id = await retunIdIfExistsByProfile(member.linkedInProfile);
+    if(id !== id){
+        return await model.updateMemberByIdModel(id,member);
+    }
+    return await model.addMemberModel(member);
 }
 async function getMemberByIdService(id){
     return await model.getMemberByIdModel(id);
@@ -23,8 +26,9 @@ async function deleteMemberByIdService(id){
 async function getCountOfMembersService(){
     return await model.getCountOfMembersModel();
 }
-module.exports ={getMembersByPageService,
+module.exports ={getMembersService,
     getMemberByIdService,
     updateMemberByIdService,
     deleteMemberByIdService,
-    getCountOfMembersService};
+    getCountOfMembersService,
+    addOrUpdateMemberService};
