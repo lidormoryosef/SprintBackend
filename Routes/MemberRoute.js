@@ -10,10 +10,6 @@ const router=express.Router();
  *     summary: Get all members.
  *     tags:
  *       - Members
-*     parameters:
- *         schema:
- *           type: string
- *         description: The num of page
  *     responses:
  *       200:
  *         description: Successful.
@@ -50,9 +46,9 @@ router.route('/getMembers').get(controller.getMembersController);
 router.route('/getMemberById/:id').get(controller.getMemberByIdController);
 /**
  * @swagger
- * /api/members/addMember:
- *   get:
- *     summary: Add member.
+ * /api/members/addOrUpdateMember:
+ *   post:
+ *     summary: Add member or update.
  *     tags:
  *       - Members
  *     requestBody:
@@ -62,8 +58,61 @@ router.route('/getMemberById/:id').get(controller.getMemberByIdController);
  *           schema:
  *             type: object
  *             properties:
- *               linkedInProfile:
+ *               full_name:
  *                 type: string
+ *                 example: "John Doe"
+ *               english_name:
+ *                 type: string
+ *                 example: "John"
+ *               picture:
+ *                 type: string
+ *                 format: uri
+ *                 example: "https://example.com/images/john.jpg"
+ *               phone:
+ *                 type: string
+ *                 example: "+123456789"
+ *               email:
+ *                 type: string
+ *                 format: email
+ *                 example: "john@example.com"
+ *               city:
+ *                 type: string
+ *                 example: "New York"
+ *               role:
+ *                 type: string
+ *                 example: "Developer"
+ *               current_company:
+ *                 type: string
+ *                 example: "Acme Corp"
+ *               years_of_experience:
+ *                 type: integer
+ *                 example: 5
+ *               linkedin_url:
+ *                 type: string
+ *                 description: "URL to LinkedIn profile"
+ *                 example: "https://linkedin.com/in/johndoe"
+ *               facebook_url:
+ *                 type: string
+ *                 example: "https://facebook.com/johndoe"
+ *               community_value:
+ *                 type: string
+ *                 example: "Active member"
+ *               additional_info:
+ *                 type: string
+ *                 example: "Some extra info about the member"
+ *               skills:
+ *                 type: string
+ *                 example: "JavaScript, Node.js, SQL"
+ *               wants_updates:
+ *                 type: boolean
+ *                 example: true
+ *               admin_notes:
+ *                 type: string
+ *                 example: "Notes for admins only"
+ *             required:
+ *               - full_name
+ *               - email
+ *               - linkedInProfile
  *     responses:
  *       200:
  *         description: Member saved.
@@ -73,44 +122,6 @@ router.route('/getMemberById/:id').get(controller.getMemberByIdController);
  *         description: Server error.
  */
 router.route('/addOrUpdateMember').post(controller.addOrUpdateMemberController);
-/**
- * @swagger
- * /api/members/updateMemberById/{id}:
- *   put:
- *     summary: Update details for a member by ID.
- *     tags:
- *       - Members
- *     parameters:
- *       - in: path
- *         name: id
- *         required: true
- *         schema:
- *           type: string
- *         description: The ID of the member to update
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               name:
- *                 type: string
- *               email:
- *                 type: string
- *               age:
- *                 type: integer
- *     responses:
- *       200:
- *         description: Member updated successfully.
- *       400:
- *         description: Error in request.
- *       404:
- *         description: Member ID does not exist.
- *       500:
- *         description: Server error.
- */
-router.route('/updateMemberById/:id').put(controller.updateMemberByIdController);
 
 /**
  * @swagger

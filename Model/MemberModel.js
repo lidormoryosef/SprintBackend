@@ -1,6 +1,6 @@
 const { CommunityMember } = require('./Connections');
 
-async function getAllMembers() {
+async function getMembersModel() {
     try{
           return await CommunityMember.findAll({
             attributes: ['member_id', 'english_name', 'role', 'current_company','city'] 
@@ -11,33 +11,73 @@ async function getAllMembers() {
 
 
 }
-async function getMemberById(id) {
-  return await CommunityMember.findByPk(id);
+async function retunIdIfExistsByProfileModel(link) {
+  try{
+      const member = await CommunityMember.findOne({
+      where: { linkedin_url: link },
+      attributes: ['member_id'] });
+      return member ? member.member_id : null;
+  }catch(error){
+    return "Error in Db";
+  }
+}
+async function updateMemberByIdModel(id, data) {
+  try{
+    const member = await CommunityMember.findByPk(id);
+      if (!member){
+        return "Not Exists";
+      } 
+    return await member.update(data);
+  }catch(error){
+    return null;
+  }
+
+}
+async function addMemberModel(data) {
+  try{
+      return await CommunityMember.create(data);
+  }catch(error){
+    return null;  
+  }
+}
+async function getMemberByIdModel(id) {
+  try{
+    let res = await CommunityMember.findByPk(id);
+    if(res === null){
+      return "Not Exists";
+    }
+    return res;
+  }catch(error){
+    return null;
+  }
+  
 }
 
-// Example: Create new member
-async function createMember(data) {
-  return await CommunityMember.create(data);
+async function deleteMemberByIdModel(id) {
+  try{
+      const member = await CommunityMember.findByPk(id);
+      if (!member) {
+        return "Not Exists";
+      }
+      return await member.destroy();
+  }catch(error){
+      return null;
+  }
+  
+}
+async function getCountOfMembersModel() {
+  try{
+    return await CommunityMember.count();
+  }catch(error){
+      return null;
+  }
+  
 }
 
-// Example: Update member
-async function updateMember(id, data) {
-  const member = await CommunityMember.findByPk(id);
-  if (!member) return null;
-  return await member.update(data);
-}
-
-// Example: Delete member
-async function deleteMember(id) {
-  const member = await CommunityMember.findByPk(id);
-  if (!member) return null;
-  return await member.destroy();
-}
-
-module.exports = {
-  getAllMembers,
-  getMemberById,
-  createMember,
-  updateMember,
-  deleteMember
-};
+module.exports = {getMembersModel,
+  retunIdIfExistsByProfileModel,
+  updateMemberByIdModel,
+  addMemberModel,
+  getMemberByIdModel,
+  deleteMemberByIdModel,
+  getCountOfMembersModel};
