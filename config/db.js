@@ -1,5 +1,5 @@
 const { Sequelize } = require('sequelize');
-const sequelize = new Sequelize('dbCommunity6', 'root', 'lidor123', {
+const sequelize = new Sequelize('dbCommunity7', 'root', 'lidor123', {
   host: 'localhost',
   port: 3306,
   dialect: 'mysql'

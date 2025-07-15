@@ -111,6 +111,34 @@ router.route('/getMembersByGroupId/:page/:groupId').get(controller.getMembersByG
 router.route('/getMemberById/:id').get(controller.getMemberByIdController);
 /**
  * @swagger
+ * /api/members/postDetailsFromLinkedIn:
+ *   post:
+ *     summary: Get Details From LinkedIn profile.
+ *     tags:
+ *       - Members
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               linkedin_url:
+ *                 type: string
+ *                 example: "linkedIn"
+ *     responses:
+ *       200:
+ *         description: Member found.
+ *       400:
+ *         description: Error in request.
+ *       404:
+ *         description: Member ID does not exist.
+ *       500:
+ *         description: Server error.
+ */
+router.route('/postDetailsFromLinkedIn').post(controller.saveDetailsFromLinkedInController);
+/**
+ * @swagger
  * /api/members/addOrUpdateMember:
  *   post:
  *     summary: Add member or update.
@@ -250,4 +278,29 @@ router.route('/getCountMembers').get(controller.getCountOfMembersController);
  */
 
 router.route('/saveMembers').post(controller.saveMembersFromExcelController);
+/**
+ * @swagger
+ * /api/members/saveMembersFromLinkedinFile:
+ *   post:
+ *     summary: Extract details from linkedin and save in db for each row in file.
+ *     tags:
+ *       - Members
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               base64:
+ *                 type: string
+ *                 description: Base64-encoded ODS or Excel file.
+ *     responses:
+ *       200:
+ *         description: Members saved successfully.
+ *       500:
+ *         description: Internal server error.
+ */
+
+router.route('/saveMembersFromLinkedinFile').post(controller.saveMembersFromExcelLinkedinController);
 module.exports = router;
