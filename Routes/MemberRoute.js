@@ -28,6 +28,35 @@ const router=express.Router();
 router.route('/getPageMembers/:page').get(controller.getMembersPageController);
 /**
  * @swagger
+ * /api/members/getPageSortMembers/{page}/{fieldSort}:
+ *   get:
+ *     summary: Get members by page.
+ *     tags:
+ *       - Members
+  *     parameters:
+ *       - in: path
+ *         name: page
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Page Number
+  *       - in: path
+ *         name: fieldSort
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The field That we want to sort by.
+ *     responses:
+ *       200:
+ *         description: Successful.
+ *       400:
+ *         description: Error in request.
+ *       500:
+ *         description: Error in Server.
+ */
+router.route('/getPageSortMembers/:page/:fieldSort').get(controller.getMembersSortPageController);
+/**
+ * @swagger
  * /api/members/getMemberById/{id}:
  *   get:
  *     summary: Get details of a member by ID.

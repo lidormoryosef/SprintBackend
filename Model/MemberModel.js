@@ -14,6 +14,22 @@ async function getMembersPageModel(page) {
     return null;
   }
 }
+async function getMembersSortPageModel(page, field) {
+  const pageSize = 25;
+  const offset = page * pageSize;
+
+  try {
+    return await CommunityMember.findAll({
+      attributes: ['member_id', 'english_name', 'phone', 'email', 'city', 'role', 'years_of_experience'],
+      order: [[field, 'ASC']],
+      limit: pageSize,
+      offset: offset
+    });
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
 
 async function retunIdIfExistsByProfileModel(link) {
   try{
@@ -79,7 +95,7 @@ async function getCountOfMembersModel() {
   
 }
 
-module.exports = {getMembersPageModel,
+module.exports = {getMembersPageModel,getMembersSortPageModel,
   retunIdIfExistsByProfileModel,
   updateMemberByIdModel,
   addMemberModel,

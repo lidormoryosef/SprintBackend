@@ -12,6 +12,9 @@ const eModel = eventModel;
 async function getMembersPageService(page){
     return await model.getMembersPageModel(page);
 }
+async function getMembersSortPageService(page,field){
+    return await model.getMembersSortPageModel(page,field);
+}
 async function addOrUpdateMemberService(member){
     
     let id = await model.retunIdIfExistsByProfileModel(member.linkedin_url);
@@ -59,7 +62,7 @@ async function saveMembersFromExcelService(base64File) {
   return "Success";
 }
 
-module.exports ={getMembersPageService,
+module.exports ={getMembersPageService,getMembersSortPageService,
     getMemberByIdService,
     deleteMemberByIdService,
     getCountOfMembersService,

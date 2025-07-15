@@ -9,6 +9,14 @@ async function getMembersPageController(request,response){
         response.status(500).send();
     }
 }
+async function getMembersSortPageController(request,response){
+    const members = await service.getMembersSortPageService(request.params.page,request.params.fieldSort);
+    if(members !== null ){
+        response.status(200).send(members);
+    }else{
+        response.status(500).send();
+    }
+}
 async function addOrUpdateMemberController(request,response){
     const member = await service.addOrUpdateMemberService(request.body);
     if(member === null ){
@@ -61,7 +69,7 @@ async function saveMembersFromExcelController(request,response){
     }
 }
 
-module.exports = {getMembersPageController,
+module.exports = {getMembersPageController,getMembersSortPageController,
     getMemberByIdController,
     deleteMemberByIdController,
     getCountOfMembersController,
