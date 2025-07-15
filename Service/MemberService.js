@@ -22,6 +22,17 @@ async function getMembersByGroupIdPageService(page,groupId){
     }
     const memberIds = members.map(gm => gm.member_id);
     return model.getMembersByListOfIdModel(memberIds);
+}
+async function getMembersSortPageService(page,field){
+    return await model.getMembersSortPageModel(page,field);
+}
+async function getMembersByGroupIdPageService(page,groupId){
+    let members =  await gModel.getMembersIdByGroupIdModel(page,groupId);
+    if(members === null){
+      return null;
+    }
+    const memberIds = members.map(gm => gm.member_id);
+    return model.getMembersByListOfIdModel(memberIds);
     
 }
 async function addOrUpdateMemberService(member){
@@ -98,7 +109,6 @@ async function saveMembersFromExcelService(base64File) {
   }
   return "Success";
 }
-
 module.exports ={getMembersPageService,getMembersSortPageService,saveDetailsFromLinkedInService,saveMembersFromExcelLinkedinService,
     getMembersByGroupIdPageService,
     getMemberByIdService,
