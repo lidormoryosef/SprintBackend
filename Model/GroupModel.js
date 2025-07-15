@@ -1,5 +1,5 @@
 const { Group ,GroupMembers,CommunityMember} = require('./Connections');
-
+const { Op } = require('sequelize');
 async function getAllGroupsModel() {
     try{
           return await Group.findAll({
@@ -78,7 +78,26 @@ async function saveGroupMemberModel(groupMember){
     throw error;  
   }
 } 
-module.exports = {getAllGroupsModel,
+async function getAllMembersThatBelongToGroups(groupIds){
+  try{
+      console.log(groupIds);
+      const members = await CommunityMember.findAll({
+      attributes: ['member_id', 'english_name', 'phone', 'email', 'city', 'role', 'years_of_experience'],
+      include: [{
+        model: Group,
+        as: 'groups',
+        where: {
+          group_id: { [Op.in]: groupIds }
+        },
+        attributes: []
+        }]
+        });
+    return members;
+  }catch(error){
+    return null;
+  }
+} 
+module.exports = {getAllGroupsModel,getAllMembersThatBelongToGroups,
     getMembersIdByGroupIdModel,
     getAllGroupsByIdModel,
     getCountOfGroupsModel,

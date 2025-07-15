@@ -51,4 +51,28 @@ router.route('/getAllGroups').get(controller.getAllGroupsController);
  *         description: Error in Server.
  */
 router.route('/getGroupsById/:id').get(controller.getAllGroupsByIdController);
+/**
+ * @swagger
+ * /api/groups/getAllMembersThatBelongTo:
+ *   post:
+ *     summary: Get all members that belong to groups.
+ *     tags:
+ *       - Groups
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: array
+ *             items:
+ *               type: integer
+ *           example: [1, 2, 3]
+ *     responses:
+ *       200:
+ *         description: Successful.
+ *       500:
+ *         description: Server error.
+ */
+
+router.route('/getAllMembersThatBelongTo').post(controller.getAllMembersThatBelongToGroupsController);
 module.exports = router;
