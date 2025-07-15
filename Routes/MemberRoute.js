@@ -5,11 +5,18 @@ const controller= memberController;
 const router=express.Router();
 /**
  * @swagger
- * /api/members/getMembers:
+ * /api/members/getPageMembers/{page}:
  *   get:
- *     summary: Get all members.
+ *     summary: Get members by page.
  *     tags:
  *       - Members
+  *     parameters:
+ *       - in: path
+ *         name: page
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Page Number
  *     responses:
  *       200:
  *         description: Successful.
@@ -18,7 +25,7 @@ const router=express.Router();
  *       500:
  *         description: Error in Server.
  */
-router.route('/getMembers').get(controller.getMembersController);
+router.route('/getPageMembers/:page').get(controller.getMembersPageController);
 /**
  * @swagger
  * /api/members/getMemberById/{id}:

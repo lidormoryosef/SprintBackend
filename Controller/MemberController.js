@@ -1,8 +1,8 @@
 const memberService = require('../Service/MemberService');
 const service = memberService;
 
-async function getMembersController(request,response){
-    const members = await service.getMembersService();
+async function getMembersPageController(request,response){
+    const members = await service.getMembersPageService(request.params.page);
     if(members !== null ){
         response.status(200).send(members);
     }else{
@@ -61,7 +61,7 @@ async function saveMembersFromExcelController(request,response){
     }
 }
 
-module.exports = {getMembersController,
+module.exports = {getMembersPageController,
     getMemberByIdController,
     deleteMemberByIdController,
     getCountOfMembersController,

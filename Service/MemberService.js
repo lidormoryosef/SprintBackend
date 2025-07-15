@@ -9,8 +9,8 @@ const cModel = companyModel;
 const gModel = groupModel;
 const eModel = eventModel;
 
-async function getMembersService(){
-    return await model.getMembersModel();
+async function getMembersPageService(page){
+    return await model.getMembersPageModel(page);
 }
 async function addOrUpdateMemberService(member){
     
@@ -59,7 +59,7 @@ async function saveMembersFromExcelService(base64File) {
   return "Success";
 }
 
-module.exports ={getMembersService,
+module.exports ={getMembersPageService,
     getMemberByIdService,
     deleteMemberByIdService,
     getCountOfMembersService,
