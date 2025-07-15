@@ -15,6 +15,15 @@ async function getMembersPageService(page){
 async function getMembersSortPageService(page,field){
     return await model.getMembersSortPageModel(page,field);
 }
+async function getMembersByGroupIdPageService(page,groupId){
+    let members =  await gModel.getMembersIdByGroupIdModel(page,groupId);
+    if(members === null){
+      return null;
+    }
+    const memberIds = members.map(gm => gm.member_id);
+    return model.getMembersByListOfIdModel(memberIds);
+    
+}
 async function addOrUpdateMemberService(member){
     
     let id = await model.retunIdIfExistsByProfileModel(member.linkedin_url);
@@ -63,6 +72,7 @@ async function saveMembersFromExcelService(base64File) {
 }
 
 module.exports ={getMembersPageService,getMembersSortPageService,
+    getMembersByGroupIdPageService,
     getMemberByIdService,
     deleteMemberByIdService,
     getCountOfMembersService,

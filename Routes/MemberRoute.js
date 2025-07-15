@@ -57,6 +57,35 @@ router.route('/getPageMembers/:page').get(controller.getMembersPageController);
 router.route('/getPageSortMembers/:page/:fieldSort').get(controller.getMembersSortPageController);
 /**
  * @swagger
+ * /api/members/getMembersByGroupId/{page}/{groupId}:
+ *   get:
+ *     summary: Get members by page.
+ *     tags:
+ *       - Members
+  *     parameters:
+ *       - in: path
+ *         name: page
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Page Number
+  *       - in: path
+ *         name: groupId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The id of the group that we want to see the members.
+ *     responses:
+ *       200:
+ *         description: Successful.
+ *       400:
+ *         description: Error in request.
+ *       500:
+ *         description: Error in Server.
+ */
+router.route('/getMembersByGroupId/:page/:groupId').get(controller.getMembersByGroupIdPageController);
+/**
+ * @swagger
  * /api/members/getMemberById/{id}:
  *   get:
  *     summary: Get details of a member by ID.

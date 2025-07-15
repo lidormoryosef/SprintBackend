@@ -30,7 +30,6 @@ async function getMembersSortPageModel(page, field) {
     return null;
   }
 }
-
 async function retunIdIfExistsByProfileModel(link) {
   try{
       const member = await CommunityMember.findOne({
@@ -92,10 +91,20 @@ async function getCountOfMembersModel() {
   }catch(error){
       return null;
   }
-  
+}
+async function getMembersByListOfIdModel(memberIds) {
+  try{
+        return await CommunityMember.findAll({
+          where: { member_id: memberIds },
+      attributes: ['member_id', 'english_name', 'phone', 'email', 'city', 'role', 'years_of_experience']
+    });
+  }catch(error){
+      return null;
+  }
 }
 
-module.exports = {getMembersPageModel,getMembersSortPageModel,
+module.exports = {getMembersPageModel,getMembersByListOfIdModel,
+  getMembersSortPageModel,
   retunIdIfExistsByProfileModel,
   updateMemberByIdModel,
   addMemberModel,

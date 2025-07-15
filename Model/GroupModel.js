@@ -1,5 +1,4 @@
-const { Group } = require('./Connections');
-const { GroupMembers } = require('./Connections');
+const { Group ,GroupMembers,CommunityMember} = require('./Connections');
 
 async function getAllGroupsModel() {
     try{
@@ -29,6 +28,22 @@ async function getAllGroupsByIdModel(id) {
     }
 
 }
+async function getMembersIdByGroupIdModel(page,groupId) {
+  try {
+    const pageSize = 25;
+    const offset = page * pageSize;
+    return await GroupMembers.findAll({
+      where: { group_id: groupId },
+      attributes: ['member_id'],
+      limit: pageSize,
+      offset: offset
+    });
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+
 async function getCountOfGroupsModel(id) {
     try{
         return await Group.count();
@@ -64,6 +79,7 @@ async function saveGroupMemberModel(groupMember){
   }
 } 
 module.exports = {getAllGroupsModel,
+    getMembersIdByGroupIdModel,
     getAllGroupsByIdModel,
     getCountOfGroupsModel,
     getDetailsGroupModel,
