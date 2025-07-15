@@ -9,6 +9,22 @@ async function getMembersPageController(request,response){
         response.status(500).send();
     }
 }
+async function getMembersSortPageController(request,response){
+    const members = await service.getMembersSortPageService(request.params.page,request.params.fieldSort);
+    if(members !== null ){
+        response.status(200).send(members);
+    }else{
+        response.status(500).send();
+    }
+}
+async function getMembersByGroupIdPageController(request,response){
+    const members = await service.getMembersByGroupIdPageService(request.params.page,request.params.groupId);
+    if(members !== null ){
+        response.status(200).send(members);
+    }else{
+        response.status(500).send();
+    }
+}
 async function addOrUpdateMemberController(request,response){
     const member = await service.addOrUpdateMemberService(request.body);
     if(member === null ){
@@ -62,6 +78,8 @@ async function saveMembersFromExcelController(request,response){
 }
 
 module.exports = {getMembersPageController,
+    getMembersSortPageController,
+    getMembersByGroupIdPageController,
     getMemberByIdController,
     deleteMemberByIdController,
     getCountOfMembersController,
