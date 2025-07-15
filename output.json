@@ -1,0 +1,41 @@
+[dotenv@17.2.0] injecting env (3) from .env (tip: 🔐 prevent building .env in docker: https://dotenvx.com/prebuild)
+🔸 scrapeLinkedIn CALLED
+🎯 scraped: {
+  full_name: 'Lidor Mor Yosef',
+  current_job: 'Software Developer | Java | C# | Python | B.Sc in Computer Science from Bar-Ilan University.',
+  location: 'Ramat Gan, Tel Aviv District, Israel',
+  linkedin_url: 'https://www.linkedin.com/in/lidor-mor-yosef-476100275/',
+  job_seniority: 'Present · 2 yrs 10 mos\n' +
+    'Oct 2022 - Present · 2 yrs 10 mos\n' +
+    'Combat online antisemitism by monitoring social networks. I identify and report instances of hate speech, discrimination, and misinformation targeting the Jewish community. My goal is to promote tolerance and create a safer online environment for all users. Combat online antisemitism by monitoring social networks. My goal is t',
+  phone: 'unavailable',
+  email: 'unavailable',
+  work_experience: "experience in building efficient algorithms, designing scalable data structures, and implementing software solutions. I have a passion for problem-solving and enjoy tackling complex challenges by leveraging my analytical thinking and logical reasoning skills. Hello! I'm Lidor Mor Yosef, Graduated from Bar-Ilan University, Computer Science. With a strong foundation in data structures, algorithms, object-oriented programming and backend development, I possess a diverse skill set in multiple progra",
+  education: 'Education\n' +
+    'Education\n' +
+    'Bar-Ilan University\n' +
+    'Bar-Ilan University\n' +
+    'Bachelor of Science - BS, Computer Science\n' +
+    'Bachelor of Science - BS, Computer Science\n' +
+    'Oct 2021 - Aug 2024\n' +
+    'Oct 2021 - Aug 2024\n' +
+    'Linux, HTML5 and +15 skills\n' +
+    'Projects\n' +
+    'Projects\n' +
+    'Trivia Game AI\n' +
+    'Trivia Game AI\n' +
+    'Oct 2024 - Oct 2024\n' +
+    'Oct 2024 - Oct 2024\n' +
+    'Trivia Game AI is an interactive web application designed to enhance learning through gamified trivia challenges. By leveraging the power of ChatGPT, users can submit articles or text, and the appli',
+  skills: "skills. Hello! I'm Lidor Mor Yosef, Graduated from Bar-Ilan University, Computer Science. With a strong foundation in data structures, algorithms, object-oriented programming and backend development, I possess a diverse skill set in multiple programming languages including C#, Java and Python. Throughout my studies, I have gained hands-on experience in building efficient algorithms, designing scalable data structures, and implementing software solutions. I have a passion for problem-solving and",
+  languages: "languages including C#, Java and Python. Throughout my studies, I have gained hands-on experience in building efficient algorithms, designing scalable data structures, and implementing software solutions. I have a passion for problem-solving and enjoy tackling complex challenges by leveraging my analytical thinking and logical reasoning skills. Hello! I'm Lidor Mor Yosef, Graduated from Bar-Ilan University, Computer Science. With a strong foundation in data structures, algorithms, object-orient",
+  recommendations: 'unavailable',
+  projects: 'Projects\n' +
+    'Projects\n' +
+    'Trivia Game AI\n' +
+    'Trivia Game AI\n' +
+    'Oct 2024 - Oct 2024\n' +
+    'Oct 2024 - Oct 2024\n' +
+    'Trivia Game AI is an interactive web application designed to enhance learning through gamified trivia challenges. By leveraging the power of ChatGPT, users can submit articles or text, and the application will automatically generate trivia questions based on the content provided. This innovative approach transforms passive reading into an engaging and interactive experience, allowing users to test their knowl',
+  image_profile: 'https://media.licdn.com/dms/image/v2/D4D03AQFEddwlu_JeFA/profile-displayphoto-shrink_100_100/profile-displayphoto-shrink_100_100/0/1711864188596?e=1758153600&v=beta&t=pdT8x5G4A08IkCdNO89XBY_t7yHMf0U1am-fEDCRxpQ'
+}
