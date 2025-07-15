@@ -25,4 +25,12 @@ async function getAllGroupsByIdController(request,response){
         response.status(200).send(groups);
     }
 }
-module.exports = {getCountOfGroupsController,getAllGroupsController,getAllGroupsByIdController};
+async function getAllMembersThatBelongToGroupsController(request,response){
+    const groups = await service.getAllMembersThatBelongToGroupsService(request.body);
+    if(groups === null ){
+        response.status(500).send();
+    }else{
+        response.status(200).send(groups);
+    }
+}
+module.exports = {getCountOfGroupsController,getAllGroupsController,getAllGroupsByIdController,getAllMembersThatBelongToGroupsController};
