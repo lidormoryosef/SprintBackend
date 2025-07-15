@@ -1,0 +1,93 @@
+const sequelize = require('../config/db');
+
+const CommunityMember = require('./CommunityMemberSchema');
+const Event = require('./EventSchema');
+const Group = require('./GroupSchema');
+const GroupMembers = require('./GroupsMembersSchema');
+const HistoryJob = require('./HistoryJobSchema');
+const MemberEvent = require('./MemberEventSchema');
+
+
+
+// CommunityMember.belongsToMany(Group, {
+//   through: GroupMembers,
+//   foreignKey: 'member_id',
+//   otherKey: 'group_id',
+//   as: 'groups'
+// });
+// Group.belongsToMany(CommunityMember, {
+//   through: GroupMembers,
+//   foreignKey: 'group_id',
+//   otherKey: 'member_id',
+//   as: 'members'
+// });
+
+// CommunityMember.belongsToMany(Event, {
+//   through: MemberEvent,
+//   foreignKey: 'member_id',
+//   otherKey: 'event_id',
+//   as: 'events'
+// });
+// Event.belongsToMany(CommunityMember, {
+//   through: MemberEvent,
+//   foreignKey: 'event_id',
+//   otherKey: 'member_id',
+//   as: 'attendees'
+// });
+// CommunityMember.hasMany(HistoryJob, {
+//   foreignKey: 'member_id',
+//   as: 'historyJobs'
+// });
+
+// HistoryJob.belongsTo(CommunityMember, {
+//   foreignKey: 'member_id',
+//   as: 'member'
+// });
+
+Event.hasMany(MemberEvent, { foreignKey: 'event_id', as: 'memberEvents' });
+MemberEvent.belongsTo(Event, { foreignKey: 'event_id', as: 'event' });
+Group.hasMany(GroupMembers, { foreignKey: 'group_id', as: 'groupMembers' });
+GroupMembers.belongsTo(Group, { foreignKey: 'group_id', as: 'group' });
+CommunityMember.belongsToMany(Event, {
+  through: MemberEvent,
+  foreignKey: 'member_id',
+  otherKey: 'event_id',
+  as: 'events'
+});
+Event.belongsToMany(CommunityMember, {
+  through: MemberEvent,
+  foreignKey: 'event_id',
+  otherKey: 'member_id',
+  as: 'attendees'
+});
+
+CommunityMember.belongsToMany(Group, {
+  through: GroupMembers,
+  foreignKey: 'member_id',
+  otherKey: 'group_id',
+  as: 'groups'
+});
+Group.belongsToMany(CommunityMember, {
+  through: GroupMembers,
+  foreignKey: 'group_id',
+  otherKey: 'member_id',
+  as: 'members'
+});
+CommunityMember.hasMany(HistoryJob, {
+  foreignKey: 'member_id',
+  as: 'historyJobs'
+});
+HistoryJob.belongsTo(CommunityMember, {
+  foreignKey: 'member_id',
+  as: 'member'
+});
+
+module.exports = {
+  sequelize,
+  Group,
+  CommunityMember,
+  Event,
+  MemberEvent,
+  HistoryJob,
+  GroupMembers
+};
