@@ -3,7 +3,7 @@ const { CommunityMember } = require('./Connections');
 async function getMembersModel() {
     try{
           return await CommunityMember.findAll({
-            attributes: ['member_id', 'english_name', 'role', 'current_company','city'] 
+            attributes: ['member_id', 'english_name', 'phone', 'email','city','role','years_of_experience'] 
         });
     }catch(error){
         return null;
