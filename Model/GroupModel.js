@@ -37,5 +37,34 @@ async function getCountOfGroupsModel(id) {
     }
 
 }
+async function getDetailsGroupModel(nameGroup){
+  try {
+    const group = await Group.findOne({
+      where: { group_name: nameGroup },
+      attributes: ['group_id', 'group_name', 'description', 'other_details']
+    });
 
-module.exports = {getAllGroupsModel,getAllGroupsByIdModel,getCountOfGroupsModel};
+    return group;
+  } catch (error) {
+    throw error;
+  }
+}
+async function saveGroupModel(group){
+  try{
+      return await Group.create(group);
+  }catch(error){
+    throw error;  
+  }
+} 
+async function saveGroupMemberModel(groupMember){
+  try{
+      return await GroupMembers.create(groupMember);
+  }catch(error){
+    throw error;  
+  }
+} 
+module.exports = {getAllGroupsModel,
+    getAllGroupsByIdModel,
+    getCountOfGroupsModel,
+    getDetailsGroupModel,
+    saveGroupModel,saveGroupMemberModel};

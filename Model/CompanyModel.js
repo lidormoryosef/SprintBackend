@@ -12,5 +12,13 @@ async function getHistoryJobByIdModel(id) {
     }
 
 }
+async function saveHistoryJobModel(job) {
+    try{
+        return await HistoryJob.create(job);
+    }catch(error){
+        throw error;
+    }
 
-module.exports = {getHistoryJobByIdModel};
+}
+
+module.exports = {getHistoryJobByIdModel,saveHistoryJobModel};

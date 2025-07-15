@@ -48,9 +48,22 @@ async function getCountOfMembersController(request,response){
         response.status(200).send(count);
     }
 }
+async function saveMembersFromExcelController(request,response){
+    try{
+        const result = await service.saveMembersFromExcelService(request.body);
+        if(result === null ){
+            response.status(500).send();
+        }else{
+            response.status(200).send();
+        }
+    }catch (error){
+        response.status(400).send();
+    }
+}
 
 module.exports = {getMembersController,
     getMemberByIdController,
     deleteMemberByIdController,
     getCountOfMembersController,
-    addOrUpdateMemberController};
+    addOrUpdateMemberController,
+    saveMembersFromExcelController};
