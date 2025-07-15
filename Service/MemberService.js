@@ -43,22 +43,34 @@ async function deleteMemberByIdService(id){
 async function getCountOfMembersService(){
     return await model.getCountOfMembersModel();
 }
-async function saveDetailsFromLinkedInService(links){
-  let member, person, result, experiences, memberId; 
-  for(let link of links){
-    memberId = await model.retunIdIfExistsByProfileModel(link);
+async function saveDetailsFromLinkedInService(link){
+    let memberId = await model.retunIdIfExistsByProfileModel(link);
     if(memberId === null){
-      person = await utils.extractFromLinkedIn([link]);
-      member = utils.convertToCommunitySchema(person);
-      result = await model.addMemberModel(member);
+      let person = await utils.extractFromLinkedIn([link]);
+      if(person == null){
+        return null;
+      }
+      let member = utils.convertToCommunitySchema(person);
+      let result = await model.addMemberModel(member);
       memberId = result.member_id;
       experiences = utils.convertToJobsHistorySchema(person,memberId);
       if(experiences.length > 0){
         cModel.saveHistoryJobsModel(experiences,memberId);
       }
     }
+    console.log(memberId);
+    return memberId;
+}
+async function saveDetailsFromArrayLinkedInService(links){
+  for(let link of links){
+    saveDetailsFromLinkedInService(link);
   }
-  return model.getMemberByIdModel(memberId);
+}
+async function saveMembersFromExcelLinkedinService(base64){
+  let filePath = utils.saveBase64ToFile(base64);
+  let object = utils.convertExcelToJson(filePath);
+  const links = object.map(item => Object.values(item)[0]);
+  saveDetailsFromArrayLinkedInService(links);
 }
 async function saveMembersFromExcelService(base64File) {
   const filename = utils.saveBase64ToFile(base64File);
@@ -87,10 +99,10 @@ async function saveMembersFromExcelService(base64File) {
   return "Success";
 }
 
-module.exports ={getMembersPageService,getMembersSortPageService,saveDetailsFromLinkedInService,
+module.exports ={getMembersPageService,getMembersSortPageService,saveDetailsFromLinkedInService,saveMembersFromExcelLinkedinService,
     getMembersByGroupIdPageService,
     getMemberByIdService,
     deleteMemberByIdService,
     getCountOfMembersService,
     addOrUpdateMemberService,
-    saveMembersFromExcelService};
+    saveMembersFromExcelService,saveDetailsFromArrayLinkedInService};

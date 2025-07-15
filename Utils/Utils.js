@@ -54,12 +54,17 @@ function splitToJson(members) {
   }
 }
 async function extractFromLinkedIn(profileslink){
+  try{
     const input = {
         "profileUrls": profileslink
     };
     const run = await client.actor("2SyF0bVxmgGr8IVCZ").call(input);
     const { items } = await client.dataset(run.defaultDatasetId).listItems();
     return items ? items[0] : null;
+  }catch(error){
+    return null;
+  }
+
 }
 function convertToCommunitySchema(person){
   return {

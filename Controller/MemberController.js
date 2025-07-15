@@ -65,16 +65,29 @@ async function getCountOfMembersController(request,response){
     }
 }
 async function saveDetailsFromLinkedInController(request,response){
-    let member = await service.saveDetailsFromLinkedInService([request.body.linkedin_url]);
-    if(member === null ){
-        response.status(500).send();
+    let memberId = await service.saveDetailsFromLinkedInService(request.body.linkedin_url);
+    if(memberId === null ){
+        response.status(400).send();
     }else{
+        let member = await service.getMemberByIdService(memberId);
         response.status(200).send(member);
     }
 }
 async function saveMembersFromExcelController(request,response){
     try{
         const result = await service.saveMembersFromExcelService(request.body);
+        if(result === null ){
+            response.status(500).send();
+        }else{
+            response.status(200).send();
+        }
+    }catch (error){
+        response.status(400).send();
+    }
+}
+async function saveMembersFromExcelLinkedinController(request,response){
+    try{
+        const result = await service.saveMembersFromExcelLinkedinService(request.body);
         if(result === null ){
             response.status(500).send();
         }else{
@@ -93,4 +106,4 @@ module.exports = {getMembersPageController,
     deleteMemberByIdController,
     getCountOfMembersController,
     addOrUpdateMemberController,
-    saveMembersFromExcelController};
+    saveMembersFromExcelController,saveMembersFromExcelLinkedinController};
