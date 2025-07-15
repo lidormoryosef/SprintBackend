@@ -1,7 +1,11 @@
 const XLSX = require("xlsx");
 const fs = require("fs");
 const path = require("path");
-
+const { ApifyClient } = require('apify-client');
+const {token} = require('../config/tokenToApify'); 
+const client = new ApifyClient({
+    token: token,
+});
 function saveBase64ToFile(base64Data, fileName = "createMembers.ods") {
   try{
       const buffer = Buffer.from(base64Data.base64, "base64");
@@ -14,7 +18,7 @@ function saveBase64ToFile(base64Data, fileName = "createMembers.ods") {
   }
 
 }
-function convertXlToJson(fileName) {
+function convertExcelToJson(fileName) {
   try {
     const workbook = XLSX.readFile(fileName);
     const sheetName = workbook.SheetNames[0]; 
@@ -49,5 +53,51 @@ function splitToJson(members) {
     throw error;
   }
 }
+async function extractFromLinkedIn(profileslink){
+    const input = {
+        "profileUrls": profileslink
+    };
+    const run = await client.actor("2SyF0bVxmgGr8IVCZ").call(input);
+    const { items } = await client.dataset(run.defaultDatasetId).listItems();
+    return items ? items[0] : null;
+}
+function convertToCommunitySchema(person){
+  return {
+    full_name: person.fullName,
+    english_name: person.fullName,
+    phone: person.mobileNumber,
+    email: person.email,
+    picture: person.profilePicHighQuality || person.profilePic || null,
+    city: person.addressWithoutCountry,
+    role: person.jobTitle,
+    current_company: person.companyName,
+    years_of_experience: person.currentJobDurationInYrs || 0,
+    linkedin_url: person.linkedinUrl,
+    facebook_url: null, 
+    community_value: null, 
+    additional_info: person.headline,
+    skills: person.skills.map(s => s.title).join(', '),
+    wants_updates: true,
+    admin_notes: null
+  };
+}
+function parseExperienceCaptionToMonths(caption) {
+  if (!caption || typeof caption !== 'string') return 0;
+  const yrMatch = caption.match(/(\d+)\s*yr/);
+  const moMatch = caption.match(/(\d+)\s*mo/);
+  const years = yrMatch ? parseInt(yrMatch[1], 10) : 0;
+  const months = moMatch ? parseInt(moMatch[1], 10) : 0;
 
-module.exports = {convertXlToJson,saveBase64ToFile,splitToJson};
+  return (years * 12) + months;
+}
+function convertToJobsHistorySchema(linkedinData, member_id) {
+  console.log(member_id);
+  if (!Array.isArray(linkedinData.experiences)) return [];
+
+  return linkedinData.experiences.map(exp => ({
+    member_id,
+    company_name: exp.title?.trim() || "Unknown",
+    months_of_experience: parseExperienceCaptionToMonths(exp.caption)
+  }));
+}
+module.exports = {convertExcelToJson,saveBase64ToFile,splitToJson,extractFromLinkedIn,convertToCommunitySchema,convertToJobsHistorySchema};

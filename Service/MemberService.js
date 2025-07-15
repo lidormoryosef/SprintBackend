@@ -9,11 +9,22 @@ const cModel = companyModel;
 const gModel = groupModel;
 const eModel = eventModel;
 
-async function getMembersService(){
-    return await model.getMembersModel();
+async function getMembersPageService(page){
+    return await model.getMembersPageModel(page);
+}
+async function getMembersSortPageService(page,field){
+    return await model.getMembersSortPageModel(page,field);
+}
+async function getMembersByGroupIdPageService(page,groupId){
+    let members =  await gModel.getMembersIdByGroupIdModel(page,groupId);
+    if(members === null){
+      return null;
+    }
+    const memberIds = members.map(gm => gm.member_id);
+    return model.getMembersByListOfIdModel(memberIds);
+    
 }
 async function addOrUpdateMemberService(member){
-    
     let id = await model.retunIdIfExistsByProfileModel(member.linkedin_url);
     if(id === null){
         return await model.addMemberModel(member);
@@ -32,9 +43,26 @@ async function deleteMemberByIdService(id){
 async function getCountOfMembersService(){
     return await model.getCountOfMembersModel();
 }
+async function saveDetailsFromLinkedInService(links){
+  let member, person, result, experiences, memberId; 
+  for(let link of links){
+    memberId = await model.retunIdIfExistsByProfileModel(link);
+    if(memberId === null){
+      person = await utils.extractFromLinkedIn([link]);
+      member = utils.convertToCommunitySchema(person);
+      result = await model.addMemberModel(member);
+      memberId = result.member_id;
+      experiences = utils.convertToJobsHistorySchema(person,memberId);
+      if(experiences.length > 0){
+        cModel.saveHistoryJobsModel(experiences,memberId);
+      }
+    }
+  }
+  return model.getMemberByIdModel(memberId);
+}
 async function saveMembersFromExcelService(base64File) {
   const filename = utils.saveBase64ToFile(base64File);
-  const fullMembers = utils.convertXlToJson(filename);
+  const fullMembers = utils.convertExcelToJson(filename);
   const { cleanUsers: members, jobs_history, events, groups } = utils.splitToJson(fullMembers);
   for (let i = 0; i < members.length; i++) {
     const m = await model.addMemberModel(members[i]);
@@ -59,7 +87,8 @@ async function saveMembersFromExcelService(base64File) {
   return "Success";
 }
 
-module.exports ={getMembersService,
+module.exports ={getMembersPageService,getMembersSortPageService,saveDetailsFromLinkedInService,
+    getMembersByGroupIdPageService,
     getMemberByIdService,
     deleteMemberByIdService,
     getCountOfMembersService,

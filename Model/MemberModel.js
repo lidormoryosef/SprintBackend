@@ -1,15 +1,34 @@
 const { CommunityMember } = require('./Connections');
 
-async function getMembersModel() {
-    try{
-          return await CommunityMember.findAll({
-            attributes: ['member_id', 'english_name', 'role', 'current_company','city'] 
-        });
-    }catch(error){
-        return null;
-    }
+async function getMembersPageModel(page) {
+  const pageSize = 25;
+  const offset = page * pageSize;
+  try {
+    return await CommunityMember.findAll({
+      attributes: ['member_id', 'english_name', 'phone', 'email', 'city', 'role', 'years_of_experience'],
+      limit: pageSize,
+      offset: offset
+    });
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
+}
+async function getMembersSortPageModel(page, field) {
+  const pageSize = 25;
+  const offset = page * pageSize;
 
-
+  try {
+    return await CommunityMember.findAll({
+      attributes: ['member_id', 'english_name', 'phone', 'email', 'city', 'role', 'years_of_experience'],
+      order: [[field, 'ASC']],
+      limit: pageSize,
+      offset: offset
+    });
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
 async function retunIdIfExistsByProfileModel(link) {
   try{
@@ -72,10 +91,20 @@ async function getCountOfMembersModel() {
   }catch(error){
       return null;
   }
-  
+}
+async function getMembersByListOfIdModel(memberIds) {
+  try{
+        return await CommunityMember.findAll({
+          where: { member_id: memberIds },
+      attributes: ['member_id', 'english_name', 'phone', 'email', 'city', 'role', 'years_of_experience']
+    });
+  }catch(error){
+      return null;
+  }
 }
 
-module.exports = {getMembersModel,
+module.exports = {getMembersPageModel,getMembersByListOfIdModel,
+  getMembersSortPageModel,
   retunIdIfExistsByProfileModel,
   updateMemberByIdModel,
   addMemberModel,

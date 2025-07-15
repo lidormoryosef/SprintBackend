@@ -20,5 +20,12 @@ async function saveHistoryJobModel(job) {
     }
 
 }
+async function saveHistoryJobsModel(jobs) {
+    try{
+        await HistoryJob.bulkCreate(jobs, { validate: true });
+    }catch(error){
+        throw error;
+    }
+}
 
-module.exports = {getHistoryJobByIdModel,saveHistoryJobModel};
+module.exports = {getHistoryJobByIdModel,saveHistoryJobModel,saveHistoryJobsModel};

@@ -5,11 +5,18 @@ const controller= memberController;
 const router=express.Router();
 /**
  * @swagger
- * /api/members/getMembers:
+ * /api/members/getPageMembers/{page}:
  *   get:
- *     summary: Get all members.
+ *     summary: Get members by page.
  *     tags:
  *       - Members
+  *     parameters:
+ *       - in: path
+ *         name: page
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Page Number
  *     responses:
  *       200:
  *         description: Successful.
@@ -18,7 +25,65 @@ const router=express.Router();
  *       500:
  *         description: Error in Server.
  */
-router.route('/getMembers').get(controller.getMembersController);
+router.route('/getPageMembers/:page').get(controller.getMembersPageController);
+/**
+ * @swagger
+ * /api/members/getPageSortMembers/{page}/{fieldSort}:
+ *   get:
+ *     summary: Get members by page.
+ *     tags:
+ *       - Members
+  *     parameters:
+ *       - in: path
+ *         name: page
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Page Number
+  *       - in: path
+ *         name: fieldSort
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The field That we want to sort by.
+ *     responses:
+ *       200:
+ *         description: Successful.
+ *       400:
+ *         description: Error in request.
+ *       500:
+ *         description: Error in Server.
+ */
+router.route('/getPageSortMembers/:page/:fieldSort').get(controller.getMembersSortPageController);
+/**
+ * @swagger
+ * /api/members/getMembersByGroupId/{page}/{groupId}:
+ *   get:
+ *     summary: Get members by page.
+ *     tags:
+ *       - Members
+  *     parameters:
+ *       - in: path
+ *         name: page
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Page Number
+  *       - in: path
+ *         name: groupId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: The id of the group that we want to see the members.
+ *     responses:
+ *       200:
+ *         description: Successful.
+ *       400:
+ *         description: Error in request.
+ *       500:
+ *         description: Error in Server.
+ */
+router.route('/getMembersByGroupId/:page/:groupId').get(controller.getMembersByGroupIdPageController);
 /**
  * @swagger
  * /api/members/getMemberById/{id}:
@@ -44,6 +109,34 @@ router.route('/getMembers').get(controller.getMembersController);
  *         description: Server error.
  */
 router.route('/getMemberById/:id').get(controller.getMemberByIdController);
+/**
+ * @swagger
+ * /api/members/postDetailsFromLinkedIn:
+ *   post:
+ *     summary: Get Details From LinkedIn profile.
+ *     tags:
+ *       - Members
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               linkedin_url:
+ *                 type: string
+ *                 example: "linkedIn"
+ *     responses:
+ *       200:
+ *         description: Member found.
+ *       400:
+ *         description: Error in request.
+ *       404:
+ *         description: Member ID does not exist.
+ *       500:
+ *         description: Server error.
+ */
+router.route('/postDetailsFromLinkedIn').post(controller.saveDetailsFromLinkedInController);
 /**
  * @swagger
  * /api/members/addOrUpdateMember:

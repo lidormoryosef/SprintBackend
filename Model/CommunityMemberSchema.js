@@ -5,7 +5,7 @@ const CommunityMember = sequelize.define('CommunityMember', {
   member_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   full_name: DataTypes.STRING,
   english_name: DataTypes.STRING,
-  picture: DataTypes.STRING,
+  picture: DataTypes.TEXT,
   phone: DataTypes.STRING,
   email: DataTypes.STRING,
   city: DataTypes.STRING,
@@ -16,7 +16,7 @@ const CommunityMember = sequelize.define('CommunityMember', {
   facebook_url: DataTypes.STRING,
   community_value: DataTypes.STRING,
   additional_info: DataTypes.TEXT,
-  skills: DataTypes.STRING,
+  skills: DataTypes.TEXT,
   wants_updates: DataTypes.BOOLEAN,
   admin_notes: DataTypes.TEXT
 });
