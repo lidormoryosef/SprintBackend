@@ -160,4 +160,29 @@ router.route('/deleteMemberById/:id').delete(controller.deleteMemberByIdControll
  *         description: Error in Server.
  */
 router.route('/getCountMembers').get(controller.getCountOfMembersController);
+/**
+ * @swagger
+ * /api/members/saveMembers:
+ *   post:
+ *     summary: Save members from uploaded Excel (base64) file.
+ *     tags:
+ *       - Members
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               base64:
+ *                 type: string
+ *                 description: Base64-encoded ODS or Excel file.
+ *     responses:
+ *       200:
+ *         description: Members saved successfully.
+ *       500:
+ *         description: Internal server error.
+ */
+
+router.route('/saveMembers').post(controller.saveMembersFromExcelController);
 module.exports = router;

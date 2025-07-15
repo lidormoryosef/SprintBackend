@@ -37,6 +37,7 @@ async function addMemberModel(data) {
   try{
       return await CommunityMember.create(data);
   }catch(error){
+    console.log(error);
     return null;  
   }
 }

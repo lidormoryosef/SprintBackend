@@ -20,5 +20,39 @@ async function getEventsByIdModel(id) {
     }
 
 }
+async function saveEventModel(event) {
+    try{
+        return await MemberEvent.create(event);
+    }catch(error){
+        throw error;
+    }
 
-module.exports = {getEventsByIdModel};
+}
+
+async function getDetailsEventModel(subjectEvent){
+  try {
+    const event = await Event.findOne({
+      where: { subject: subjectEvent },
+      attributes: ['event_id', 'date', 'description']
+    });
+
+    return event;
+  } catch (error) {
+    throw error;
+  }
+}
+async function saveEventModel(event){
+  try{
+      return await Event.create(event);
+  }catch(error){
+    return null;  
+  }
+} 
+async function saveGroupMemberModel(eventMember){
+  try{
+      return await MemberEvent.create(eventMember);
+  }catch(error){
+    throw error; 
+  }
+} 
+module.exports = {getEventsByIdModel,saveEventModel,getDetailsEventModel,saveGroupMemberModel};
