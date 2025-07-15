@@ -1,16 +1,20 @@
 const { CommunityMember } = require('./Connections');
 
-async function getMembersModel() {
-    try{
-          return await CommunityMember.findAll({
-            attributes: ['member_id', 'english_name', 'phone', 'email','city','role','years_of_experience'] 
-        });
-    }catch(error){
-        return null;
-    }
-
-
+async function getMembersPageModel(page) {
+  const pageSize = 25;
+  const offset = page * pageSize;
+  try {
+    return await CommunityMember.findAll({
+      attributes: ['member_id', 'english_name', 'phone', 'email', 'city', 'role', 'years_of_experience'],
+      limit: pageSize,
+      offset: offset
+    });
+  } catch (error) {
+    console.error(error);
+    return null;
+  }
 }
+
 async function retunIdIfExistsByProfileModel(link) {
   try{
       const member = await CommunityMember.findOne({
@@ -75,7 +79,7 @@ async function getCountOfMembersModel() {
   
 }
 
-module.exports = {getMembersModel,
+module.exports = {getMembersPageModel,
   retunIdIfExistsByProfileModel,
   updateMemberByIdModel,
   addMemberModel,
