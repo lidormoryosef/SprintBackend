@@ -310,8 +310,13 @@ router.route('/saveMembersFromLinkedinFile').post(controller.saveMembersFromExce
  *     summary: Search in data Base rows that contains word.
  *     tags:
  *       - Members
- *     requestBody:
- *       required: true
+ *     parameters:
+ *       - in: path
+ *         name: word
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Word we want to search
  *     responses:
  *       200:
  *         description: Members saved successfully.
@@ -319,5 +324,5 @@ router.route('/saveMembersFromLinkedinFile').post(controller.saveMembersFromExce
  *         description: Internal server error.
  */
 
-router.route('/getMemberInclude/:word').post(controller.getMemberIncludeWordController);
+router.route('/getMemberInclude/:word').get(controller.getMemberIncludeWordController);
 module.exports = router;
