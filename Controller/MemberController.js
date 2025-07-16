@@ -103,7 +103,7 @@ async function getMemberIncludeWordController(request,response){
         if(result === null ){
             response.status(500).send();
         }else{
-            response.status(200).send();
+            response.status(200).send(result);
         }
     }catch (error){
         response.status(400).send();

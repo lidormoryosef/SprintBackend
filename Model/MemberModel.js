@@ -1,4 +1,5 @@
 const { CommunityMember } = require('./Connections');
+const { Op } = require('sequelize');
 const pageSize = 7;
 async function getMembersPageModel(page) {
   
@@ -91,10 +92,8 @@ async function getCountOfMembersModel() {
       return null;
   }
 }
-const { Op } = require('sequelize');
-const CommunityMember = require('../models/CommunityMember');
-
 async function getMemberIncludeWordModel(word) {
+  console.log(word);
   const likeWord = `%${word}%`;
 
   try {

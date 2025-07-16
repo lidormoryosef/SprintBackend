@@ -55,7 +55,7 @@ async function getCountOfMembersService(){
     return await model.getCountOfMembersModel();
 }
 async function getMemberIncludeWordService(word){
-    return await model.getMemberIncludeWordModel();
+    return await model.getMemberIncludeWordModel(word);
 }
 async function saveDetailsFromLinkedInService(link){
     let memberId = await model.retunIdIfExistsByProfileModel(link);
