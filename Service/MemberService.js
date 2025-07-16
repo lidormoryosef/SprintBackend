@@ -54,6 +54,9 @@ async function deleteMemberByIdService(id){
 async function getCountOfMembersService(){
     return await model.getCountOfMembersModel();
 }
+async function getMemberIncludeWordService(word){
+    return await model.getMemberIncludeWordModel();
+}
 async function saveDetailsFromLinkedInService(link){
     let memberId = await model.retunIdIfExistsByProfileModel(link);
     if(memberId === null){
@@ -112,7 +115,7 @@ async function saveMembersFromExcelService(base64File) {
 module.exports ={getMembersPageService,getMembersSortPageService,saveDetailsFromLinkedInService,saveMembersFromExcelLinkedinService,
     getMembersByGroupIdPageService,
     getMemberByIdService,
-    deleteMemberByIdService,
+    deleteMemberByIdService,getMemberIncludeWordService,
     getCountOfMembersService,
     addOrUpdateMemberService,
     saveMembersFromExcelService,saveDetailsFromArrayLinkedInService};

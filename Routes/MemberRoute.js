@@ -303,4 +303,21 @@ router.route('/saveMembers').post(controller.saveMembersFromExcelController);
  */
 
 router.route('/saveMembersFromLinkedinFile').post(controller.saveMembersFromExcelLinkedinController);
+/**
+ * @swagger
+ * /api/members/getMemberInclude/{word}:
+ *   get:
+ *     summary: Search in data Base rows that contains word.
+ *     tags:
+ *       - Members
+ *     requestBody:
+ *       required: true
+ *     responses:
+ *       200:
+ *         description: Members saved successfully.
+ *       500:
+ *         description: Internal server error.
+ */
+
+router.route('/getMemberInclude/:word').post(controller.getMemberIncludeWordController);
 module.exports = router;
