@@ -18,6 +18,20 @@ const router=express.Router();
 router.route('/getCountGroups').get(controller.getCountOfGroupsController);
 /**
  * @swagger
+ * /api/groups/getBiggestGroup:
+ *   get:
+ *     summary: Get the Biggest Group and size.
+ *     tags:
+ *       - Groups
+ *     responses:
+ *       200:
+ *         description: Successful.
+ *       500:
+ *         description: Error in Server.
+ */
+router.route('/getBiggestGroup').get(controller.getTheBiggestGroupController);
+/**
+ * @swagger
  * /api/groups/getAllGroups:
  *   get:
  *     summary: Get all groups.

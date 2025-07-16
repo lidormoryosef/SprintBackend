@@ -255,6 +255,20 @@ router.route('/deleteMemberById/:id').delete(controller.deleteMemberByIdControll
 router.route('/getCountMembers').get(controller.getCountOfMembersController);
 /**
  * @swagger
+ * /api/members/getBiggestCity:
+ *   get:
+ *     summary: Get The Biggest city and the size.
+ *     tags:
+ *       - Members
+ *     responses:
+ *       200:
+ *         description: Successful.
+ *       500:
+ *         description: Error in Server.
+ */
+router.route('/getBiggestCity').get(controller.getBiggestCityController);
+/**
+ * @swagger
  * /api/members/saveMembers:
  *   post:
  *     summary: Save members from uploaded Excel (base64) file.
@@ -325,4 +339,5 @@ router.route('/saveMembersFromLinkedinFile').post(controller.saveMembersFromExce
  */
 
 router.route('/getMemberInclude/:word').get(controller.getMemberIncludeWordController);
+
 module.exports = router;

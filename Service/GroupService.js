@@ -4,6 +4,9 @@ const model = groupModel;
 async function getCountOfGroupsService(){
     return await model.getCountOfGroupsModel();
 }
+async function getTheBiggestGroupService(){
+    return await model.getTheBiggestGroupModel();
+}
 async function getAllGroupsService(){
     return await model.getAllGroupsModel();
 }
@@ -13,4 +16,4 @@ async function getAllGroupsByIdService(id){
 async function getAllMembersThatBelongToGroupsService(ids){
     return await model.getAllMembersThatBelongToGroups(ids);
 }
-module.exports ={getCountOfGroupsService,getAllGroupsService,getAllGroupsByIdService,getAllMembersThatBelongToGroupsService};
+module.exports ={getCountOfGroupsService,getAllGroupsService,getTheBiggestGroupService,getAllGroupsByIdService,getAllMembersThatBelongToGroupsService};

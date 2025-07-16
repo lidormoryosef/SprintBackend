@@ -64,6 +64,14 @@ async function getCountOfMembersController(request,response){
         response.status(200).send(count);
     }
 }
+async function getBiggestCityController(request,response){
+    const count = await service.getBiggestCityService();
+    if(count === null ){
+        response.status(500).send();
+    }else{
+        response.status(200).send(count);
+    }
+}
 async function saveDetailsFromLinkedInController(request,response){
     let memberId = await service.saveDetailsFromLinkedInService(request.body.linkedin_url);
     if(memberId === null ){
@@ -112,7 +120,7 @@ async function getMemberIncludeWordController(request,response){
 
 module.exports = {getMembersPageController,getMemberIncludeWordController,
     saveDetailsFromLinkedInController,
-    getMembersSortPageController,
+    getMembersSortPageController,getBiggestCityController,
     getMembersByGroupIdPageController,
     getMemberByIdController,
     deleteMemberByIdController,

@@ -1,5 +1,5 @@
-const { Group ,GroupMembers,CommunityMember} = require('./Connections');
-const { Op } = require('sequelize');
+const { Group ,GroupMembers,CommunityMember,sequelize} = require('./Connections');
+const { Op ,fn, col, literal} = require('sequelize');
 async function getAllGroupsModel() {
     try{
           return await Group.findAll({
@@ -30,7 +30,7 @@ async function getAllGroupsByIdModel(id) {
 }
 async function getMembersIdByGroupIdModel(page,groupId) {
   try {
-    const pageSize = 25;
+    const pageSize = 7;
     const offset = page * pageSize;
     return await GroupMembers.findAll({
       where: { group_id: groupId },
@@ -51,6 +51,37 @@ async function getCountOfGroupsModel(id) {
         return null;
     }
 
+}
+async function getTheBiggestGroupModel() {
+  try {
+    const [topGroup] = await GroupMembers.findAll({
+      attributes: [
+        'group_id',
+        [sequelize.fn('COUNT', sequelize.col('member_id')), 'memberCount']
+      ],
+      group: ['group_id'],
+      order: [[sequelize.literal('memberCount'), 'DESC']],
+      limit: 1,
+      raw: true
+    });
+
+    if (!topGroup) return null;
+
+    const group = await Group.findOne({
+      where: { group_id: topGroup.group_id },
+      attributes: ['group_id', 'group_name'],
+      raw: true
+    });
+
+    return {
+      group_id: group.group_id,
+      group_name: group.group_name,
+      memberCount: topGroup.memberCount
+    };
+  } catch (error) {
+    console.error('Error finding biggest group:', error);
+    throw error;
+  }
 }
 async function getDetailsGroupModel(nameGroup){
   try {
@@ -102,4 +133,4 @@ module.exports = {getAllGroupsModel,getAllMembersThatBelongToGroups,
     getAllGroupsByIdModel,
     getCountOfGroupsModel,
     getDetailsGroupModel,
-    saveGroupModel,saveGroupMemberModel};
+    saveGroupModel,saveGroupMemberModel,getTheBiggestGroupModel};

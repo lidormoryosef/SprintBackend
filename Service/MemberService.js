@@ -54,6 +54,9 @@ async function deleteMemberByIdService(id){
 async function getCountOfMembersService(){
     return await model.getCountOfMembersModel();
 }
+async function getBiggestCityService(){
+    return await model.getBiggestCityModel();
+}
 async function getMemberIncludeWordService(word){
     return await model.getMemberIncludeWordModel(word);
 }
@@ -118,4 +121,4 @@ module.exports ={getMembersPageService,getMembersSortPageService,saveDetailsFrom
     deleteMemberByIdService,getMemberIncludeWordService,
     getCountOfMembersService,
     addOrUpdateMemberService,
-    saveMembersFromExcelService,saveDetailsFromArrayLinkedInService};
+    saveMembersFromExcelService,saveDetailsFromArrayLinkedInService,getBiggestCityService};

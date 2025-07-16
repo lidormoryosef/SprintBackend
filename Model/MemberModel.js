@@ -1,5 +1,5 @@
-const { CommunityMember } = require('./Connections');
-const { Op } = require('sequelize');
+const { CommunityMember ,sequelize} = require('./Connections');
+const { Op ,QueryTypes } = require('sequelize');
 const pageSize = 7;
 async function getMembersPageModel(page) {
   
@@ -92,6 +92,35 @@ async function getCountOfMembersModel() {
       return null;
   }
 }
+async function getBiggestCityModel() {
+  try {
+    // Step 1: Get the city with the highest count
+    const [biggest] = await sequelize.query(
+      `SELECT city, COUNT(*) as count 
+       FROM CommunityMembers 
+       WHERE city IS NOT NULL AND city != ''
+       GROUP BY city 
+       ORDER BY count DESC 
+       LIMIT 1`,
+      { type: QueryTypes.SELECT }
+    );
+
+    if (!biggest) return null;
+
+    // Step 2: Get the exact count again if needed (optional — already have it above)
+    const count = await CommunityMember.count({
+      where: { city: biggest.city }
+    });
+
+    return {
+      city: biggest.city,
+      count
+    };
+  } catch (error) {
+    console.error("Error finding biggest city:", error);
+    throw error;
+  }
+}
 async function getMemberIncludeWordModel(word) {
   console.log(word);
   const likeWord = `%${word}%`;
@@ -136,7 +165,10 @@ async function getMembersByListOfIdModel(memberIds) {
   }
 }
 
-module.exports = {getMembersPageModel,getMemberIncludeWordModel,getMembersByListOfIdModel,
+module.exports = {getMembersPageModel,
+  getBiggestCityModel,
+  getMemberIncludeWordModel,
+  getMembersByListOfIdModel,
   getMembersSortPageModel,
   retunIdIfExistsByProfileModel,
   updateMemberByIdModel,
