@@ -1,7 +1,7 @@
 const { CommunityMember } = require('./Connections');
-
+const pageSize = 7;
 async function getMembersPageModel(page) {
-  const pageSize = 25;
+  
   const offset = page * pageSize;
   try {
     return await CommunityMember.findAll({
@@ -15,7 +15,6 @@ async function getMembersPageModel(page) {
   }
 }
 async function getMembersSortPageModel(page, field) {
-  const pageSize = 25;
   const offset = page * pageSize;
 
   try {
