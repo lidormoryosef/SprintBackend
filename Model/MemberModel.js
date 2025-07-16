@@ -92,6 +92,41 @@ async function getCountOfMembersModel() {
       return null;
   }
 }
+const { Op } = require('sequelize');
+const CommunityMember = require('../models/CommunityMember');
+
+async function getMemberIncludeWordModel(word) {
+  const likeWord = `%${word}%`;
+
+  try {
+    const results = await CommunityMember.findAll({
+      where: {
+        [Op.or]: [
+          { full_name: { [Op.like]: likeWord } },
+          { english_name: { [Op.like]: likeWord } },
+          { picture: { [Op.like]: likeWord } },
+          { phone: { [Op.like]: likeWord } },
+          { email: { [Op.like]: likeWord } },
+          { city: { [Op.like]: likeWord } },
+          { role: { [Op.like]: likeWord } },
+          { current_company: { [Op.like]: likeWord } },
+          { linkedin_url: { [Op.like]: likeWord } },
+          { facebook_url: { [Op.like]: likeWord } },
+          { community_value: { [Op.like]: likeWord } },
+          { additional_info: { [Op.like]: likeWord } },
+          { skills: { [Op.like]: likeWord } },
+          { admin_notes: { [Op.like]: likeWord } }
+        ]
+      }
+    });
+
+    return results;
+  } catch (error) {
+    console.error('Search error:', error);
+    throw error;
+  }
+}
+
 async function getMembersByListOfIdModel(memberIds) {
   try{
         return await CommunityMember.findAll({
@@ -103,7 +138,7 @@ async function getMembersByListOfIdModel(memberIds) {
   }
 }
 
-module.exports = {getMembersPageModel,getMembersByListOfIdModel,
+module.exports = {getMembersPageModel,getMemberIncludeWordModel,getMembersByListOfIdModel,
   getMembersSortPageModel,
   retunIdIfExistsByProfileModel,
   updateMemberByIdModel,

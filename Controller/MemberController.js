@@ -97,8 +97,20 @@ async function saveMembersFromExcelLinkedinController(request,response){
         response.status(400).send();
     }
 }
+async function getMemberIncludeWordController(request,response){
+    try{
+        const result = await service.getMemberIncludeWordService(request.params.word);
+        if(result === null ){
+            response.status(500).send();
+        }else{
+            response.status(200).send();
+        }
+    }catch (error){
+        response.status(400).send();
+    }
+}
 
-module.exports = {getMembersPageController,
+module.exports = {getMembersPageController,getMemberIncludeWordController,
     saveDetailsFromLinkedInController,
     getMembersSortPageController,
     getMembersByGroupIdPageController,
