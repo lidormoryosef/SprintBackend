@@ -32,7 +32,7 @@ async function addOrUpdateMemberController(request,response){
     }else if (member === "Not Exists"){
         response.status(404).send();
     }else{
-        response.status(200).send();
+        response.status(200).send(member.member_id);
     }
 }
 async function getMemberByIdController(request,response){
