@@ -89,4 +89,32 @@ router.route('/getGroupsById/:id').get(controller.getAllGroupsByIdController);
  */
 
 router.route('/getAllMembersThatBelongTo').post(controller.getAllMembersThatBelongToGroupsController);
+/**
+ * @swagger
+ * /api/groups/addMemberToGroup:
+ *   post:
+ *     summary: Add member to group.
+ *     tags:
+ *       - Groups
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               member_id:
+ *                 type: integer
+ *                 example: 5
+ *               group_id:
+ *                 type: integer
+ *                 example: 8
+ *     responses:
+ *       200:
+ *         description: Successful.
+ *       500:
+ *         description: Server error.
+ */
+
+router.route('/addMemberToGroup').post(controller.addMemberToGroupController);
 module.exports = router;

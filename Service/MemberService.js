@@ -103,7 +103,7 @@ async function saveMembersFromExcelService(base64File) {
       if (!event) {
         event = await eModel.saveEventModel({ subject: eventName });
       }
-      await eModel.saveGroupMemberModel({ event_id: event.event_id, member_id: m.member_id });
+      await eModel.saveEventMemberModel({ event_id: event.event_id, member_id: m.member_id });
     }
     for (const groupName of groups[i] || []) {
       let group = await gModel.getDetailsGroupModel(groupName);

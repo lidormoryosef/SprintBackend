@@ -41,4 +41,12 @@ async function getAllMembersThatBelongToGroupsController(request,response){
         response.status(200).send(groups);
     }
 }
-module.exports = {getCountOfGroupsController,getTheBiggestGroupController,getAllGroupsController,getAllGroupsByIdController,getAllMembersThatBelongToGroupsController};
+async function addMemberToGroupController(request,response){
+    const groups = await service.addMemberToGroupService(request.body);
+    if(groups === null ){
+        response.status(500).send();
+    }else{
+        response.status(200).send(groups);
+    }
+}
+module.exports = {getCountOfGroupsController,addMemberToGroupController,getTheBiggestGroupController,getAllGroupsController,getAllGroupsByIdController,getAllMembersThatBelongToGroupsController};
