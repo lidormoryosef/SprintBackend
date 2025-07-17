@@ -102,13 +102,31 @@ async function saveGroupModel(group){
     throw error;  
   }
 } 
-async function saveGroupMemberModel(groupMember){
-  try{
-      return await GroupMembers.create(groupMember);
-  }catch(error){
-    throw error;  
+
+async function saveGroupMemberModel(groupMember) {
+  try {
+    const memberExists = await CommunityMember.findByPk(groupMember.member_id);
+    if (!memberExists) {
+      return;
+    }
+    const groupExists = await Group.findByPk(groupMember.group_id);
+    if (!groupExists) {
+      return;
+    }
+    const [record, created] = await GroupMembers.findOrCreate({
+      where: {
+        member_id: groupMember.member_id,
+        group_id: groupMember.group_id
+      },
+      defaults: groupMember
+    });
+
+    return;
+  } catch (error) {
+    throw error;
   }
-} 
+}
+
 async function getAllMembersThatBelongToGroups(groupIds) {
   try {
     const placeholders = groupIds.map(() => '?').join(',');
