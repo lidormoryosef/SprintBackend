@@ -109,25 +109,31 @@ async function saveGroupMemberModel(groupMember){
     throw error;  
   }
 } 
-async function getAllMembersThatBelongToGroups(groupIds){
-  try{
-      console.log(groupIds);
-      const members = await CommunityMember.findAll({
-      attributes: ['member_id', 'english_name', 'phone', 'email', 'city', 'role', 'years_of_experience'],
-      include: [{
-        model: Group,
-        as: 'groups',
-        where: {
-          group_id: { [Op.in]: groupIds }
-        },
-        attributes: []
-        }]
-        });
-    return members;
-  }catch(error){
+async function getAllMembersThatBelongToGroups(groupIds) {
+  try {
+    const placeholders = groupIds.map(() => '?').join(',');
+    const count = groupIds.length;
+
+    const query = `
+      SELECT cm.member_id, cm.english_name, cm.phone, cm.email, cm.city, cm.role, cm.years_of_experience
+      FROM CommunityMembers cm
+      JOIN GroupMembers gm ON cm.member_id = gm.member_id
+      WHERE gm.group_id IN (${placeholders})
+      GROUP BY cm.member_id
+      HAVING COUNT(DISTINCT gm.group_id) = ?
+    `;
+
+    const results = await sequelize.query(query, {
+      replacements: [...groupIds, count],
+      type: sequelize.QueryTypes.SELECT
+    });
+
+    return results;
+  } catch (error) {
+    console.error("Error fetching members:", error);
     return null;
   }
-} 
+}
 module.exports = {getAllGroupsModel,getAllMembersThatBelongToGroups,
     getMembersIdByGroupIdModel,
     getAllGroupsByIdModel,

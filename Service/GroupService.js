@@ -16,4 +16,7 @@ async function getAllGroupsByIdService(id){
 async function getAllMembersThatBelongToGroupsService(ids){
     return await model.getAllMembersThatBelongToGroups(ids);
 }
-module.exports ={getCountOfGroupsService,getAllGroupsService,getTheBiggestGroupService,getAllGroupsByIdService,getAllMembersThatBelongToGroupsService};
+async function addMemberToGroupService(groupMember){
+    return await model.saveGroupMemberModel(groupMember);
+}
+module.exports ={getCountOfGroupsService,addMemberToGroupService,getAllGroupsService,getTheBiggestGroupService,getAllGroupsByIdService,getAllMembersThatBelongToGroupsService};

@@ -94,7 +94,6 @@ async function getCountOfMembersModel() {
 }
 async function getBiggestCityModel() {
   try {
-    // Step 1: Get the city with the highest count
     const [biggest] = await sequelize.query(
       `SELECT city, COUNT(*) as count 
        FROM CommunityMembers 
@@ -106,8 +105,6 @@ async function getBiggestCityModel() {
     );
 
     if (!biggest) return null;
-
-    // Step 2: Get the exact count again if needed (optional — already have it above)
     const count = await CommunityMember.count({
       where: { city: biggest.city }
     });

@@ -48,11 +48,11 @@ async function saveEventModel(event){
     return null;  
   }
 } 
-async function saveGroupMemberModel(eventMember){
+async function saveEventMemberModel(eventMember){
   try{
       return await MemberEvent.create(eventMember);
   }catch(error){
     throw error; 
   }
 } 
-module.exports = {getEventsByIdModel,saveEventModel,getDetailsEventModel,saveGroupMemberModel};
+module.exports = {getEventsByIdModel,saveEventModel,getDetailsEventModel,saveEventMemberModel};
