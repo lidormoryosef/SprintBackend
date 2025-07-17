@@ -43,7 +43,7 @@ async function getAllMembersThatBelongToGroupsController(request,response){
 }
 async function addMemberToGroupController(request,response){
     const groups = await service.addMemberToGroupService(request.body);
-    if(groups === null ){
+    if(groups === null){
         response.status(500).send();
     }else{
         response.status(200).send(groups);
