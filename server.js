@@ -5,7 +5,6 @@ const groupRoute = require('./Routes/GroupRoute');
 const companyRoute = require('./Routes/CompanyRoute');
 const eventRoute = require('./Routes/EventRoute');
 const http=require('http');
-const path = require('path');
 const swaggerUi = require('swagger-ui-express');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerOptions = {
@@ -29,14 +28,7 @@ let app = express();
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(express.json({ limit: '1000mb' }));
-
-// app.use(express.static(path.join(__dirname, 'client/build')));
-
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'client/build', 'index.html'));
-// });
-
-
+app.use(express.static('public'));
 app.use('/api/members', memberRoute);
 app.use('/api/groups', groupRoute);
 app.use('/api/company', companyRoute);
